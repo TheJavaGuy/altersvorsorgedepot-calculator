@@ -21,3 +21,7 @@ It is a single static file. Open `index.html` in a browser.
 ## Disclaimer
 
 This is not financial or tax advice. Check the linked official sources before making decisions.
+
+## License
+
+[MIT](LICENSE)
