@@ -293,6 +293,22 @@ details.cost summary::-webkit-details-marker { display:none; }
           <input id="young" type="checkbox" class="toggle toggle-sm toggle-accent">
           <span class="text-sm">Under 25 when the contract starts (200 € one-off bonus)</span>
         </label>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input id="soli" type="checkbox" class="toggle toggle-sm toggle-secondary" checked>
+            <span class="text-sm">Solidaritätszuschlag (5.5 %)</span>
+          </label>
+          <div class="flex items-center gap-3">
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input id="church" type="checkbox" class="toggle toggle-sm toggle-secondary" checked>
+              <span class="text-sm">Church tax</span>
+            </label>
+            <div class="join seg" role="group" aria-label="Church tax rate" id="kistSeg">
+              <button class="btn btn-xs join-item" data-kist="8" title="Bavaria, Baden-Württemberg">8 %</button>
+              <button class="btn btn-xs join-item btn-active" data-kist="9" title="All other states">9 %</button>
+            </div>
+          </div>
+        </div>
 
         <div>
           <div class="meter" aria-label="Money landing in the depot per year" id="meter">
@@ -316,14 +332,14 @@ details.cost summary::-webkit-details-marker { display:none; }
           </div>
           <div class="rounded-xl tint-teal p-3">
             <div class="text-xs font-semibold">Extra tax refund</div>
-            <div class="num text-2xl"><span id="tOut">443</span> €</div>
+            <div class="num text-2xl"><span id="tOut">507</span> €</div>
           </div>
           <div class="rounded-xl bg-base-300 p-3">
             <div class="text-xs font-semibold">Return before markets</div>
-            <div class="num text-2xl"><span id="rOut">55</span> %</div>
+            <div class="num text-2xl"><span id="rOut">58</span> %</div>
           </div>
         </div>
-        <p class="footnote" id="meterNote">1,800 € in → 2,340 € in the depot plus a 443 € refund on your account. Deduction: 1,800 € + 540 € Zulage = 2,340 € × 42 % = 983 €, minus the 540 € already paid as Zulage.</p>
+        <p class="footnote" id="meterNote">1,800 € in → 2,340 € in the depot plus a 507 € refund on your account. Deduction: 1,800 € + 540 € Zulage = 2,340 € × 42 % = 983 €, minus the 540 € already paid as Zulage = 443 € income tax, plus 24 € Soli and 40 € church tax.</p>
       </div>
     </div>
   </div>
@@ -668,7 +684,7 @@ details.cost summary::-webkit-details-marker { display:none; }
     <li><a class="link" href="https://www.verbraucherzentrale.de/wissen/geld-versicherungen/altersvorsorge/neues-altersvorsorgedepot-rentenchance-oder-teure-verkaufsfalle-118178">Verbraucherzentrale: Renten-Chance oder teure Verkaufsfalle? (20 Jul 2026)</a></li>
     <li><a class="link" href="https://www.finanzen.net/ratgeber/vorsorge/altersvorsorgedepot/">finanzen.net Ratgeber (28 Sep 2026)</a> · <a class="link" href="https://finanzfacts.de/vergleich/altersvorsorgedepot/">finanzfacts provider comparison (11 Sep 2026)</a></li>
   </ul>
-  <p class="footnote mt-6 prose-w">Information as of 2 October 2026, not tax or investment advice. Provider conditions are subject to BZSt certification. Calculators are simplified: Sonderausgabenabzug ignores Solidaritätszuschlag and church tax; payout figures are nominal, before tax and inflation.</p>
+  <p class="footnote mt-6 prose-w">Information as of 2 October 2026, not tax or investment advice. Provider conditions are subject to BZSt certification. Calculators are simplified: Solidaritätszuschlag and church tax are applied at their full rate to the income-tax refund (Soli only applies above 20,350 € income tax, 40,700 € joint; its Milderungszone and the church-tax deduction are ignored); payout figures are nominal, before tax and inflation.</p>
 </section>
 
 </main>
@@ -724,18 +740,20 @@ details.cost summary::-webkit-details-marker { display:none; }
 
   // ---------- hero subsidy meter ----------
   var own=document.getElementById('own'), rate=document.getElementById('rate'), young=document.getElementById('young');
-  var kids=0;
+  var soli=document.getElementById('soli'), church=document.getElementById('church');
+  var kids=0, kist=9;
   var meter=document.getElementById('meter'), meterOwn=document.getElementById('mOwn'), measureCtx=document.createElement('canvas').getContext('2d');
-  function calc(c,k,y,r){
+  // s, ch: Soli and church-tax rates in %; both are levied on the income tax, so they shrink with the income-tax refund
+  function calc(c,k,y,r,s,ch){
     var grund=0,kind=0,bonus=0;
     if(c>=120){ grund=0.5*Math.min(c,360)+0.25*Math.max(0,Math.min(c,1800)-360); kind=k*Math.min(c,300); bonus=y?200:0; }
     var zul=grund+kind+bonus;
     var deduction=Math.min(c,1800)+zul;
-    var refund=Math.max(0,deduction*r/100-zul);
-    return {grund:grund,kind:kind,bonus:bonus,zul:zul,refund:refund,deduction:deduction};
+    var incomeTax=Math.max(0,deduction*r/100-zul), soliTax=incomeTax*s/100, churchTax=incomeTax*ch/100;
+    return {grund:grund,kind:kind,bonus:bonus,zul:zul,incomeTax:incomeTax,soliTax:soliTax,churchTax:churchTax,refund:incomeTax+soliTax+churchTax,deduction:deduction};
   }
   function renderMeter(){
-    var c=+own.value, r=+rate.value, y=young.checked, o=calc(c,kids,y,r);
+    var c=+own.value, r=+rate.value, y=young.checked, o=calc(c,kids,y,r,soli.checked?5.5:0,church.checked?kist:0);
     document.getElementById('ownOut').textContent=fmt(c); document.getElementById('rateOut').textContent=r;
     var total=c+o.zul; var cap=Math.max(total,2400);
     var pct=function(v){ return (total?(v/cap*100):0).toFixed(2)+'%'; };
@@ -750,13 +768,22 @@ details.cost summary::-webkit-details-marker { display:none; }
     var note=document.getElementById('meterNote');
     if(c<120){ note.textContent='Below 120 € a year there is no Zulage at all, not even pro rata.'; }
     else if(c>1800){ note.textContent=fmt(c)+' € in → '+fmt(total)+' € in the depot. The '+fmt(c-1800)+' € above 1,800 € get no Zulage and no deduction, but still grow tax-deferred; they are locked until 65 and taxed later only on the earnings share.'; }
-    else { note.textContent=fmt(c)+' € in → '+fmt(total)+' € in the depot plus a '+fmt(o.refund)+' € refund on your account. Deduction: '+fmt(Math.min(c,1800))+' € + '+fmt(o.zul)+' € Zulage = '+fmt(o.deduction)+' € × '+r+' % = '+fmt(o.deduction*r/100)+' €, minus the '+fmt(o.zul)+' € already paid as Zulage.'; }
+    else { note.textContent=fmt(c)+' € in → '+fmt(total)+' € in the depot plus a '+fmt(o.refund)+' € refund on your account. Deduction: '+fmt(Math.min(c,1800))+' € + '+fmt(o.zul)+' € Zulage = '+fmt(o.deduction)+' € × '+r+' % = '+fmt(o.deduction*r/100)+' €, minus the '+fmt(o.zul)+' € already paid as Zulage'+surcharges(o)+'.'; }
+  }
+  function surcharges(o){
+    var parts=[];
+    if(soli.checked) parts.push(fmt(o.soliTax)+' € Soli');
+    if(church.checked) parts.push(fmt(o.churchTax)+' € church tax');
+    return parts.length?' = '+fmt(o.incomeTax)+' € income tax, plus '+parts.join(' and '):'';
   }
   own.addEventListener('input',renderMeter); rate.addEventListener('input',renderMeter); young.addEventListener('change',renderMeter);
+  soli.addEventListener('change',renderMeter); church.addEventListener('change',renderMeter);
   new ResizeObserver(renderMeter).observe(meter);
   if(document.fonts) document.fonts.ready.then(renderMeter);
   document.querySelectorAll('[data-kids]').forEach(function(b){ b.addEventListener('click',function(){ kids=+b.dataset.kids; document.querySelectorAll('[data-kids]').forEach(function(x){ x.classList.toggle('btn-active',x===b); }); state.kids=kids; saveState(); renderMeter(); }); });
   restoreButton('kids');
+  document.querySelectorAll('[data-kist]').forEach(function(b){ b.addEventListener('click',function(){ kist=+b.dataset.kist; document.querySelectorAll('[data-kist]').forEach(function(x){ x.classList.toggle('btn-active',x===b); }); state.kist=kist; saveState(); renderMeter(); }); });
+  restoreButton('kist');
   // one orchestrated load moment: the slider sweeps 0 -> its (default or restored) value
   if(reduced){ renderMeter(); } else {
     var ownTarget=+own.value; own.value=0; renderMeter();
