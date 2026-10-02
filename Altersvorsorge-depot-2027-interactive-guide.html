@@ -121,6 +121,12 @@ img, svg, canvas { max-width:100%; }
 .card.quiet { background:var(--color-base-200); border:1px solid var(--hairline); }
 .mono { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.85em; }
 .table-wrap { overflow-x:auto; border:1px solid var(--hairline); border-radius:var(--radius-box); }
+.facts { display:flex; flex-wrap:wrap; gap:1px; background:var(--hairline); border:1px solid var(--hairline); border-radius:var(--radius-box); overflow:hidden; }
+.facts > .stat { flex:1 1 100%; width:auto; align-content:start; background:var(--color-base-200); border:0; }
+.facts :is(.stat-title, .stat-value, .stat-desc) { white-space:normal; }
+@media (min-width:640px){ .facts > .stat { flex-basis:34%; } }
+@media (min-width:768px){ .facts > .stat { flex-basis:30%; } }
+@media (min-width:1280px){ .facts > .stat { flex-basis:0; } }
 .table :where(th) { color:var(--ink-soft); font-weight:600; }
 
 /* ---------- Hero subsidy meter ---------- */
@@ -293,7 +299,7 @@ details.cost summary::-webkit-details-marker { display:none; }
 
 <!-- ================= KEY FACTS ================= -->
 <section id="key-facts" class="wrap pb-14">
-  <div class="stats stats-vertical sm:stats-horizontal w-full bg-base-200 border hairline shadow-none overflow-x-auto">
+  <div class="facts">
     <div class="stat"><div class="stat-title">Products available</div><div class="stat-value num text-2xl">1 Jan 2027</div><div class="stat-desc">law in force 29 May 2026</div></div>
     <div class="stat"><div class="stat-title">Max Grundzulage</div><div class="stat-value num text-2xl">540 €/yr</div><div class="stat-desc">at 1,800 € paid in; +300 €/child</div></div>
     <div class="stat"><div class="stat-title">Hard cap per contract</div><div class="stat-value num text-2xl">6,840 €/yr</div><div class="stat-desc">above 1,800 € unsubsidised but tax-deferred</div></div>
