@@ -354,19 +354,19 @@ details.cost summary::-webkit-details-marker { display:none; }
   <p class="soft mt-3 prose-w">All are "certified Altersvorsorgeverträge" (BZSt). The subsidies and taxes are identical; what differs is guarantee, fund choice and whether the cost cap applies.</p>
 
   <div class="tabs tabs-lift mt-8" role="tablist">
-    <input type="radio" name="ptabs" class="tab" aria-label="Altersvorsorgedepot" checked>
+    <input type="radio" name="ptabs" class="tab" value="avd" aria-label="Altersvorsorgedepot" checked>
     <div class="tab-content bg-base-200 border hairline p-6">
       <h3 class="display">Altersvorsorgedepot-Vertrag</h3>
       <p class="mt-2 prose-w">No guarantee. You (if the contract offers the choice) or the provider pick funds from the legal list. Up to 100 % equities. <b>Costs are not capped</b> — this is where "premium" fee structures will appear.</p>
       <div class="mt-3 flex flex-wrap gap-2"><span class="badge badge-primary">highest expected return</span><span class="badge badge-warning">no cost cap</span><span class="badge badge-outline">best for 15+ years to go</span></div>
     </div>
-    <input type="radio" name="ptabs" class="tab" aria-label="Standarddepot">
+    <input type="radio" name="ptabs" class="tab" value="standard" aria-label="Standarddepot">
     <div class="tab-content bg-base-200 border hairline p-6">
       <h3 class="display">Standarddepot-Vertrag Altersvorsorge</h3>
       <p class="mt-2 prose-w">Mandatory offer for every provider. Two preset funds (one risky, one defensive), automatic shift into the defensive fund in the years before payout unless you opt out. <b>Effective cost capped at 1.0 % p.a.</b> Sold online without advice. A state-run version is authorised but needs a regulation that does not exist yet.</p>
       <div class="mt-3 flex flex-wrap gap-2"><span class="badge badge-primary">cost cap 1.0 %</span><span class="badge badge-outline">no decisions needed</span><span class="badge badge-outline">0 % fee at several brokers</span></div>
     </div>
-    <input type="radio" name="ptabs" class="tab" aria-label="Garantieprodukt">
+    <input type="radio" name="ptabs" class="tab" value="guarantee" aria-label="Garantieprodukt">
     <div class="tab-content bg-base-200 border hairline p-6">
       <h3 class="display">Garantieprodukt</h3>
       <p class="mt-2 prose-w">The provider guarantees 80 % or 100 % of your contributions at payout start. To fund that, a large share sits in bonds, so expected return is lower. Typically insurer-run, with acquisition and administration costs. Reasonable only with few years to go.</p>
@@ -614,13 +614,13 @@ details.cost summary::-webkit-details-marker { display:none; }
 <section id="more" class="wrap py-14 border-t hairline">
   <h2 class="display">Things that bite later</h2>
   <div class="join join-vertical w-full mt-6">
-    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more" checked><div class="collapse-title font-semibold">The Zulage is not automatic</div><div class="collapse-content text-sm"><p>Sign the <i>Dauerzulagenantrag</i> when you open the contract; the provider then applies every year at the ZfA using your Steuer-ID. Without it, the deadline is the end of the second year after the contribution year (2027 money → 31 Dec 2029). Report marriage, births, Kindergeld changes and self-employment promptly, or the ZfA reclaims later. Check the yearly statement.</p></div></div>
-    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more"><div class="collapse-title font-semibold">Existing Riester: never cancel, migrate</div><div class="collapse-content text-sm"><p>Old contracts are grandfathered. You can keep the old rules, switch only the subsidy system by declaration, convert with the same provider, or transfer the capital to a new AVD without claw-back and without the old provider's consent. No way back. Cancelling triggers the claw-back; pausing does not. Riester stays better only for savers with several children who cannot afford 25 € a month. No new Riester contracts from 2027.</p></div></div>
-    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more"><div class="collapse-title font-semibold">Rürup, bAV and VL do not connect</div><div class="collapse-content text-sm"><p>No transfer from a Basisrente. Company-pension contributions can still be subsidised the old Riester way; the AVD is not a new bAV channel. Vermögenswirksame Leistungen cannot be routed into an AVD.</p></div></div>
-    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more"><div class="collapse-title font-semibold">Home ownership is optional per contract</div><div class="collapse-content text-sm"><p>Withdrawal for a self-used home (purchase, debt repayment, energy refurbishment, age-appropriate conversion) stays subsidy-neutral, but providers no longer have to offer it. Pick one that does if you might want it. Wohnförderkonto taxation is compressed to 5 years after payout start.</p></div></div>
-    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more"><div class="collapse-title font-semibold">Certification says nothing about quality</div><div class="collapse-content text-sm"><p>From 2027 the BZSt certifies "under reservation of revocation" without a full pre-check so products can launch on day one. It confirms the contract follows the rules — not that it is cheap or good.</p></div></div>
-    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more"><div class="collapse-title font-semibold">What is still open</div><div class="collapse-content text-sm"><p>Regulations detailing the Positivliste boundaries; the state-run Standarddepot (which entity, which funds — reportedly delayed); the Frühstart-Rente act (first reading 25 Sep 2026). Over 40 years tax rules will change; that risk exists for every retirement product.</p></div></div>
-    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more"><div class="collapse-title font-semibold">What the watchdogs say</div><div class="collapse-content text-sm"><p>Verbraucherzentrale, Stiftung Warentest and Prof. Malmendier (at the hearing): good structure, but the 1 % cap is high by international standards and covers only the Standarddepot; expect a sales wave of expensive "premium" products. Advice: no hurry, avoid commission-based sales, compare effective costs, consider waiting for the public product.</p></div></div>
+    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more" value="zulage" checked><div class="collapse-title font-semibold">The Zulage is not automatic</div><div class="collapse-content text-sm"><p>Sign the <i>Dauerzulagenantrag</i> when you open the contract; the provider then applies every year at the ZfA using your Steuer-ID. Without it, the deadline is the end of the second year after the contribution year (2027 money → 31 Dec 2029). Report marriage, births, Kindergeld changes and self-employment promptly, or the ZfA reclaims later. Check the yearly statement.</p></div></div>
+    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more" value="riester"><div class="collapse-title font-semibold">Existing Riester: never cancel, migrate</div><div class="collapse-content text-sm"><p>Old contracts are grandfathered. You can keep the old rules, switch only the subsidy system by declaration, convert with the same provider, or transfer the capital to a new AVD without claw-back and without the old provider's consent. No way back. Cancelling triggers the claw-back; pausing does not. Riester stays better only for savers with several children who cannot afford 25 € a month. No new Riester contracts from 2027.</p></div></div>
+    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more" value="ruerup"><div class="collapse-title font-semibold">Rürup, bAV and VL do not connect</div><div class="collapse-content text-sm"><p>No transfer from a Basisrente. Company-pension contributions can still be subsidised the old Riester way; the AVD is not a new bAV channel. Vermögenswirksame Leistungen cannot be routed into an AVD.</p></div></div>
+    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more" value="home"><div class="collapse-title font-semibold">Home ownership is optional per contract</div><div class="collapse-content text-sm"><p>Withdrawal for a self-used home (purchase, debt repayment, energy refurbishment, age-appropriate conversion) stays subsidy-neutral, but providers no longer have to offer it. Pick one that does if you might want it. Wohnförderkonto taxation is compressed to 5 years after payout start.</p></div></div>
+    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more" value="certification"><div class="collapse-title font-semibold">Certification says nothing about quality</div><div class="collapse-content text-sm"><p>From 2027 the BZSt certifies "under reservation of revocation" without a full pre-check so products can launch on day one. It confirms the contract follows the rules — not that it is cheap or good.</p></div></div>
+    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more" value="open"><div class="collapse-title font-semibold">What is still open</div><div class="collapse-content text-sm"><p>Regulations detailing the Positivliste boundaries; the state-run Standarddepot (which entity, which funds — reportedly delayed); the Frühstart-Rente act (first reading 25 Sep 2026). Over 40 years tax rules will change; that risk exists for every retirement product.</p></div></div>
+    <div class="collapse collapse-arrow join-item border hairline bg-base-200"><input type="radio" name="more" value="watchdogs"><div class="collapse-title font-semibold">What the watchdogs say</div><div class="collapse-content text-sm"><p>Verbraucherzentrale, Stiftung Warentest and Prof. Malmendier (at the hearing): good structure, but the 1 % cap is high by international standards and covers only the Standarddepot; expect a sales wave of expensive "premium" products. Advice: no hurry, avoid commission-based sales, compare effective costs, consider waiting for the public product.</p></div></div>
   </div>
 
   <div class="card bg-base-200 border hairline shadow-none mt-10"><div class="card-body">
@@ -670,7 +670,7 @@ details.cost summary::-webkit-details-marker { display:none; }
   mobileNav.addEventListener('click',function(e){ if(e.target.closest('a')) mobileNav.hidePopover(); });
 
   // ---------- persisted inputs ----------
-  // every control in <main>: sliders/numbers by value, checkboxes by state, radios per group by checked index; segmented buttons store their own keys
+  // every control in <main>: sliders/numbers by value, checkboxes by state, radios per group by the checked value; segmented buttons store their own keys
   var STATE_KEY='avd-inputs', state={}, persisted='main input';
   try{ state=JSON.parse(localStorage.getItem(STATE_KEY))||{}; }catch(e){}
   // the reset button only shows once something has been saved
@@ -679,16 +679,15 @@ details.cost summary::-webkit-details-marker { display:none; }
   syncResetBtn();
   function saveState(){ try{ localStorage.setItem(STATE_KEY,JSON.stringify(state)); }catch(e){} syncResetBtn(); }
   function stateKey(el){ return el.type==='radio'?el.name:el.id; }
-  function radioIndex(el){ return [].indexOf.call(document.getElementsByName(el.name),el); }
   document.querySelectorAll(persisted).forEach(function(el){
     var v=state[stateKey(el)]; if(v==null) return;
-    if(el.type==='radio'){ if(v===radioIndex(el)) el.checked=true; }
+    if(el.type==='radio'){ if(v===el.value) el.checked=true; }
     else if(el.type==='checkbox'){ el.checked=!!v; }
     else { el.value=v; }
   });
   function remember(e){
     var el=e.target; if(!el.matches(persisted)||!stateKey(el)) return;
-    state[stateKey(el)]=el.type==='radio'?radioIndex(el):el.type==='checkbox'?el.checked:el.value; saveState();
+    state[stateKey(el)]=el.type==='checkbox'?el.checked:el.value; saveState();
   }
   document.addEventListener('input',remember); document.addEventListener('change',remember);
   // defaults live in the markup, so a reset is: forget the state, reload
