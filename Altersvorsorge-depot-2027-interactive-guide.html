@@ -166,7 +166,7 @@ details.cost summary::-webkit-details-marker { display:none; }
 @media (min-width:768px){ .tl-badge { width:9.5rem; justify-content:center; } }
 .mobile-nav { display:flex; gap:.25rem; overflow-x:auto; padding:.35rem .75rem .5rem; border-bottom:1px solid var(--hairline); background:var(--color-base-100); position:sticky; top:calc(env(safe-area-inset-top,0px) + 3.5rem); z-index:39; }
 .mobile-nav::-webkit-scrollbar { display:none; }
-@media (min-width:768px){ .mobile-nav { display:none; } }
+@media (min-width:1024px){ .mobile-nav { display:none; } }
 </style>
 </head>
 <body>
@@ -175,9 +175,9 @@ details.cost summary::-webkit-details-marker { display:none; }
 <header class="navbar navbar-top sticky z-40 min-h-14 px-3 md:px-6">
   <div class="flex-1 flex items-center gap-3">
     <a href="#top" class="display text-lg font-semibold">Altersvorsorgedepot 2027</a>
-    <span class="badge badge-sm badge-outline hidden sm:inline-flex">status 2 Oct 2026</span>
+    <span class="badge badge-sm badge-outline whitespace-nowrap hidden sm:inline-flex lg:hidden xl:inline-flex">status 2 Oct 2026</span>
   </div>
-  <nav class="scroll-x hidden md:flex items-center gap-1" aria-label="Sections">
+  <nav class="scroll-x min-w-0 hidden lg:flex items-center gap-1" aria-label="Sections">
     <a class="navlink" href="#timeline">Timeline</a>
     <a class="navlink" href="#products">Products</a>
     <a class="navlink" href="#providers">Providers</a>
