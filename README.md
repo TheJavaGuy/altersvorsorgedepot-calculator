@@ -26,4 +26,4 @@ This is not financial or tax advice. Check the linked official sources before ma
 
 Copyright (c) 2026 Ivan Milosavljevic
 
-Licensed under the [GNU LGPL v3](COPYING.LESSER), which extends the [GNU GPL v3](COPYING).
+Licensed under the [GNU GPL v3](COPYING).
