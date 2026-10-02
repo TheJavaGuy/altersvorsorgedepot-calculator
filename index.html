@@ -266,7 +266,7 @@ details.cost summary::-webkit-details-marker { display:none; }
         </div>
 
         <label class="block">
-          <div class="flex justify-between text-sm font-semibold mb-1"><span>You pay in per year</span><span><span id="ownOut" class="num text-lg">1,800</span> €</span></div>
+          <div class="flex items-baseline gap-2 text-sm font-semibold mb-1"><span>You pay in per year</span><span><span id="ownOut" class="num text-lg">1,800</span> €</span><span class="soft font-normal">(<span id="ownMonthOut" class="num">150</span> € / month)</span></div>
           <input id="own" type="range" min="0" max="6840" step="10" value="1800" class="range range-primary w-full" aria-label="Own contribution per year">
           <div class="flex justify-between text-xs soft mt-1"><span>0</span><span>120 min.</span><span>1,800 subsidised</span><span>6,840 cap</span></div>
         </label>
@@ -754,7 +754,7 @@ details.cost summary::-webkit-details-marker { display:none; }
   }
   function renderMeter(){
     var c=+own.value, r=+rate.value, y=young.checked, o=calc(c,kids,y,r,soli.checked?5.5:0,church.checked?kist:0);
-    document.getElementById('ownOut').textContent=fmt(c); document.getElementById('rateOut').textContent=r;
+    document.getElementById('ownOut').textContent=fmt(c); document.getElementById('ownMonthOut').textContent=fmt(c/12); document.getElementById('rateOut').textContent=r;
     var total=c+o.zul; var cap=Math.max(total,2400);
     var pct=function(v){ return (total?(v/cap*100):0).toFixed(2)+'%'; };
     // pick the longest label that fits the segment's final pixel width (flex-basis is still animating)
