@@ -95,14 +95,13 @@
 
 /* ---------- Base ---------- */
 :root { box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
-html { scroll-padding-top:calc(env(safe-area-inset-top,0px) + 6.5rem); scroll-behavior:smooth; }
+html { scroll-padding-top:calc(env(safe-area-inset-top,0px) + 3.5rem); scroll-behavior:smooth; }
 body { background:var(--color-base-100); color:var(--color-base-content); font-family:"Manrope",system-ui,sans-serif; font-feature-settings:"tnum"; }
 .display { font-family:"Fraunces","Georgia",serif; font-variation-settings:"opsz" 144,"SOFT" 40; letter-spacing:-.015em; line-height:1.02; }
 .num { font-family:"Fraunces","Georgia",serif; font-variation-settings:"opsz" 96,"SOFT" 20; font-variant-numeric:tabular-nums; letter-spacing:-.02em; }
 .soft { color:var(--ink-soft); }
 .prose-w { max-width:68ch; }
 .hairline { border-color:var(--hairline); }
-section { scroll-margin-top:4.5rem; }
 .wrap { max-width:76rem; margin-inline:auto; padding-inline:1.25rem; }
 @media (min-width:768px){ .wrap { padding-inline:2rem; } }
 h2.display { font-size:clamp(1.9rem,3.6vw,2.9rem); font-weight:600; }
@@ -141,6 +140,9 @@ img, svg, canvas { max-width:100%; }
 .tl-item { opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease; }
 .tl-item.in { opacity:1; transform:none; }
 .tl-future .timeline-middle { opacity:.55; }
+/* bundle order lets timeline-snap-icon override timeline-compact's empty start column */
+.timeline-compact.timeline-vertical > li { --timeline-col-start:0; }
+.tl-badge { width:5.75rem; height:auto; min-height:var(--size); padding-block:.125rem; line-height:1.25; text-align:center; }
 .tl-today .tl-badge { background:var(--color-secondary); color:var(--color-secondary-content); }
 @media (prefers-reduced-motion: reduce) {
   .tl-item { opacity:1; transform:none; transition:none; }
@@ -164,9 +166,10 @@ details.cost summary::-webkit-details-marker { display:none; }
 .outcome .card-body { justify-content:flex-start; }
 .seg .btn-active { background:var(--color-primary); color:var(--color-primary-content); border-color:var(--color-primary); }
 @media (min-width:768px){ .tl-badge { width:9.5rem; justify-content:center; } }
-.mobile-nav { display:flex; gap:.25rem; overflow-x:auto; padding:.35rem .75rem .5rem; border-bottom:1px solid var(--hairline); background:var(--color-base-100); position:sticky; top:calc(env(safe-area-inset-top,0px) + 3.5rem); z-index:39; }
-.mobile-nav::-webkit-scrollbar { display:none; }
-@media (min-width:1024px){ .mobile-nav { display:none; } }
+.mobile-nav { position:fixed; inset:auto .75rem auto auto; top:calc(env(safe-area-inset-top,0px) + 3.75rem); margin:0; width:min(15rem, calc(100vw - 1.5rem)); max-height:calc(100dvh - 5rem); overflow-y:auto; padding:.4rem; border:1px solid var(--hairline); border-radius:var(--radius-box); background:var(--color-base-100); color:inherit; box-shadow:0 12px 32px -12px rgb(0 0 0 / .25); }
+.mobile-nav:popover-open { display:grid; }
+.mobile-nav .navlink { padding:.6rem .75rem; }
+@media (min-width:1024px){ .mobile-nav:popover-open { display:none; } }
 </style>
 </head>
 <body>
@@ -193,8 +196,11 @@ details.cost summary::-webkit-details-marker { display:none; }
     <svg class="swap-off h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4 1.4-1.4"/></svg>
     <svg class="swap-on h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
   </label>
+  <button type="button" class="btn btn-ghost btn-circle btn-sm ml-1 lg:hidden" popovertarget="mobileNav" aria-label="Sections menu" title="Sections">
+    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
 </header>
-<nav class="mobile-nav" aria-label="Sections (mobile)">
+<nav id="mobileNav" class="mobile-nav" popover aria-label="Sections (mobile)">
   <a class="navlink" href="#timeline">Timeline</a><a class="navlink" href="#products">Products</a><a class="navlink" href="#providers">Providers</a><a class="navlink" href="#work">Work</a><a class="navlink" href="#costs">Costs</a><a class="navlink" href="#payout">Payout</a><a class="navlink" href="#death">Inheritance</a><a class="navlink" href="#tax">Tax</a><a class="navlink" href="#more">More</a>
 </nav>
 
@@ -208,8 +214,8 @@ details.cost summary::-webkit-details-marker { display:none; }
       <h1 class="display text-[clamp(2.4rem,6vw,4.6rem)] font-semibold">From 2027 the state tops up every euro you put into ETFs.</h1>
       <p class="lead soft prose-w mt-5">Pay in up to 1,800 € a year, get up to 540 € back in cash subsidies plus 300 € per child, a tax deduction on top, and no tax on gains while you save. The catch is a lock-up until 65, a full income-tax hit on the way out, and a cost cap that only covers one product variant.</p>
       <div class="mt-6 flex flex-wrap gap-2">
-        <a href="#costs" class="btn btn-primary">Why costs matter more than the subsidy</a>
-        <a href="#death" class="btn btn-ghost">What happens to my family</a>
+        <a href="#costs" class="btn btn-primary h-auto min-h-10 max-w-full py-2 whitespace-normal">Why costs matter more than the subsidy</a>
+        <a href="#death" class="btn btn-ghost h-auto min-h-10 max-w-full py-2 whitespace-normal">What happens to my family</a>
       </div>
     </div>
 
@@ -639,6 +645,10 @@ details.cost summary::-webkit-details-marker { display:none; }
   function isDark(){ var t=root.getAttribute('data-theme'); return t ? t==='dark' : prefersDark(); }
   toggle.checked=isDark();
   toggle.addEventListener('change',function(){ var t=toggle.checked?'dark':'light'; root.setAttribute('data-theme',t); try{ localStorage.setItem('avd-theme',t); }catch(e){} restyleCharts(); });
+
+  // ---------- mobile section menu ----------
+  var mobileNav=document.getElementById('mobileNav');
+  mobileNav.addEventListener('click',function(e){ if(e.target.closest('a')) mobileNav.hidePopover(); });
 
   var fmt=function(n){ return Math.round(n).toLocaleString('en-US'); };
   var cssVar=function(n){ return getComputedStyle(root).getPropertyValue(n).trim(); };
