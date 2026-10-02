@@ -7,6 +7,7 @@ Interactive guide to the German Altersvorsorgedepot (AVD) pension reform, with a
 ## What it covers
 
 - State subsidy on your contributions, calculated live from your inputs
+- Tax refund from the Sonderausgabenabzug, optionally including Solidaritätszuschlag and church tax (8 % or 9 %)
 - Timeline of the reform, from proposal to law
 - Contract types and where you can open one
 - Costs, payout ages, inheritance and tax
