@@ -17,7 +17,7 @@ Your inputs are saved in your browser's `localStorage` and never leave your devi
 
 ## Run locally
 
-It is a single static file. Open `index.html` in a browser.
+It is a static site with no build step. Open `index.html` in a browser.
 
 ## Disclaimer
 
