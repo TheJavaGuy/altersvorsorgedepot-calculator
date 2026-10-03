@@ -190,7 +190,13 @@ details.cost summary::-webkit-details-marker { display:none; }
 .footnote { font-size:.8rem; color:var(--ink-soft); }
 .steps-tax .step { font-size:.85rem; }
 .outcome .card-body { justify-content:flex-start; }
-.seg .btn-active { background:var(--color-primary); color:var(--color-primary-content); border-color:var(--color-primary); }
+.seg .btn[aria-disabled="true"] { opacity:.5; color:var(--color-base-content); background-color:var(--color-base-200); }
+.seg .btn[aria-pressed="true"] { background:var(--color-primary); color:var(--color-primary-content); border-color:var(--color-primary); }
+.seg .btn[aria-pressed="true"]:hover { background:color-mix(in oklab, var(--color-primary), #000 10%); }
+
+/* ---------- Button states ---------- */
+.btn:active:not([aria-pressed="true"]) { scale:.96; transition-duration:.05s; }
+@media (pointer: coarse) { .btn { min-height:44px; min-width:44px; } }
 @media (min-width:768px){ .tl-badge { width:9.5rem; justify-content:center; } }
 .mobile-nav, .reset-confirm { position:fixed; inset:auto .75rem auto auto; top:calc(env(safe-area-inset-top,0px) + 3.75rem); margin:0; width:min(15rem, calc(100vw - 1.5rem)); max-height:calc(100dvh - 5rem); overflow-y:auto; padding:.4rem; border:1px solid var(--hairline); border-radius:var(--radius-box); background:var(--color-base-100); color:inherit; box-shadow:0 12px 32px -12px rgb(0 0 0 / .25); }
 .mobile-nav:popover-open { display:grid; }
@@ -238,7 +244,7 @@ details.cost summary::-webkit-details-marker { display:none; }
   <p id="resetConfirmText" class="text-sm">Reset every calculator input to its default? Your light / dark choice is kept.</p>
   <div class="flex justify-end gap-2">
     <button type="button" class="btn btn-sm btn-ghost" popovertarget="resetConfirm" popovertargetaction="hide">Cancel</button>
-    <button type="button" id="resetConfirmBtn" class="btn btn-sm btn-error">Reset</button>
+    <button type="button" id="resetConfirmBtn" class="btn btn-sm btn-error">Reset inputs</button>
   </div>
 </div>
 
@@ -275,10 +281,10 @@ details.cost summary::-webkit-details-marker { display:none; }
           <div>
             <div class="text-sm font-semibold mb-1">Children with Kindergeld</div>
             <div class="join seg" role="group" aria-label="Children">
-              <button class="btn btn-sm join-item btn-active" data-kids="0">0</button>
-              <button class="btn btn-sm join-item" data-kids="1">1</button>
-              <button class="btn btn-sm join-item" data-kids="2">2</button>
-              <button class="btn btn-sm join-item" data-kids="3">3</button>
+              <button type="button" class="btn btn-sm join-item" aria-pressed="true" data-kids="0">0</button>
+              <button type="button" class="btn btn-sm join-item" aria-pressed="false" data-kids="1">1</button>
+              <button type="button" class="btn btn-sm join-item" aria-pressed="false" data-kids="2">2</button>
+              <button type="button" class="btn btn-sm join-item" aria-pressed="false" data-kids="3">3</button>
             </div>
           </div>
           <div>
@@ -304,9 +310,10 @@ details.cost summary::-webkit-details-marker { display:none; }
               <span class="text-sm">Church tax</span>
             </label>
             <div class="join seg" role="group" aria-label="Church tax rate" id="kistSeg">
-              <button class="btn btn-xs join-item" data-kist="8" title="Bavaria, Baden-Württemberg">8 %</button>
-              <button class="btn btn-xs join-item btn-active" data-kist="9" title="All other states">9 %</button>
+              <button type="button" class="btn btn-xs join-item" aria-pressed="false" aria-describedby="kistHint" data-kist="8" title="Bavaria, Baden-Württemberg">8 %</button>
+              <button type="button" class="btn btn-xs join-item" aria-pressed="true" aria-describedby="kistHint" data-kist="9" title="All other states">9 %</button>
             </div>
+            <span id="kistHint" hidden></span>
           </div>
         </div>
 
@@ -521,12 +528,12 @@ details.cost summary::-webkit-details-marker { display:none; }
         <input id="cost" type="range" min="0" max="2.5" step="0.05" value="1" class="range range-error w-full" aria-label="All-in annual cost">
         <div class="flex justify-between text-xs soft mt-1"><span>0</span><span>1.0 cap</span><span>2.5 "premium"</span></div>
       </label>
-      <div class="join seg flex flex-wrap" role="group" aria-label="Presets">
-        <button class="btn btn-xs join-item" data-cost="0.2">0.2 world ETF</button>
-        <button class="btn btn-xs join-item" data-cost="1">1.0 cap</button>
-        <button class="btn btn-xs join-item" data-cost="1.5">1.5 active</button>
-        <button class="btn btn-xs join-item" data-cost="2">2.0 Riester</button>
-        <button class="btn btn-xs join-item" data-cost="2.5">2.5 insurer</button>
+      <div class="join seg flex flex-wrap" role="group" aria-label="Cost presets">
+        <button type="button" class="btn btn-xs join-item" aria-pressed="false" data-cost="0.2">0.2 world ETF</button>
+        <button type="button" class="btn btn-xs join-item" aria-pressed="false" data-cost="1">1.0 cap</button>
+        <button type="button" class="btn btn-xs join-item" aria-pressed="false" data-cost="1.5">1.5 active</button>
+        <button type="button" class="btn btn-xs join-item" aria-pressed="false" data-cost="2">2.0 Riester</button>
+        <button type="button" class="btn btn-xs join-item" aria-pressed="false" data-cost="2.5">2.5 insurer</button>
       </div>
       <div class="rounded-xl bg-base-200 border hairline p-4">
         <div class="text-xs font-semibold soft">Capital after 40 years</div>
@@ -590,7 +597,7 @@ details.cost summary::-webkit-details-marker { display:none; }
   <div class="grid lg:grid-cols-[1fr_1.3fr] gap-8 mt-8">
     <div class="card quiet shadow-none"><div class="card-body">
       <div class="text-sm font-semibold">Who inherits?</div>
-      <div class="join seg mt-2" role="group" id="heirSeg"><button class="btn btn-sm join-item btn-active" data-heir="spouse">My wife</button><button class="btn btn-sm join-item" data-heir="son">My son</button></div>
+      <div class="join seg mt-2" role="group" aria-label="Who inherits" id="heirSeg"><button type="button" class="btn btn-sm join-item" aria-pressed="true" data-heir="spouse">My wife</button><button type="button" class="btn btn-sm join-item" aria-pressed="false" data-heir="son">My son</button></div>
       <div class="text-sm font-semibold mt-5">In which phase?</div>
       <div class="flex flex-col gap-2 mt-2" id="phaseChoices">
         <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="phase" class="radio radio-sm radio-primary" value="save" checked><span>Saving phase</span></label>
@@ -780,10 +787,14 @@ details.cost summary::-webkit-details-marker { display:none; }
   soli.addEventListener('change',renderMeter); church.addEventListener('change',renderMeter);
   new ResizeObserver(renderMeter).observe(meter);
   if(document.fonts) document.fonts.ready.then(renderMeter);
-  document.querySelectorAll('[data-kids]').forEach(function(b){ b.addEventListener('click',function(){ kids=+b.dataset.kids; document.querySelectorAll('[data-kids]').forEach(function(x){ x.classList.toggle('btn-active',x===b); }); state.kids=kids; saveState(); renderMeter(); }); });
+  document.querySelectorAll('[data-kids]').forEach(function(b){ b.addEventListener('click',function(){ kids=+b.dataset.kids; document.querySelectorAll('[data-kids]').forEach(function(x){ x.setAttribute('aria-pressed',x===b); }); state.kids=kids; saveState(); renderMeter(); }); });
   restoreButton('kids');
-  document.querySelectorAll('[data-kist]').forEach(function(b){ b.addEventListener('click',function(){ kist=+b.dataset.kist; document.querySelectorAll('[data-kist]').forEach(function(x){ x.classList.toggle('btn-active',x===b); }); state.kist=kist; saveState(); renderMeter(); }); });
+  document.querySelectorAll('[data-kist]').forEach(function(b){ b.addEventListener('click',function(){ if(b.getAttribute('aria-disabled')==='true') return; kist=+b.dataset.kist; document.querySelectorAll('[data-kist]').forEach(function(x){ x.setAttribute('aria-pressed',x===b); }); state.kist=kist; saveState(); renderMeter(); }); });
   restoreButton('kist');
+  // the rate only matters with church tax on; the hint explains the disabled state (group title for mouse, aria-describedby for screen readers)
+  var kistSeg=document.getElementById('kistSeg'), kistHint=document.getElementById('kistHint');
+  function syncKist(){ var off=!church.checked; kistHint.textContent=kistSeg.title=off?'Turn on church tax to choose a rate':''; kistSeg.querySelectorAll('[data-kist]').forEach(function(x){ x.setAttribute('aria-disabled',off); }); }
+  church.addEventListener('change',syncKist); syncKist();
   // one orchestrated load moment: the slider sweeps 0 -> its (default or restored) value
   if(reduced){ renderMeter(); } else {
     var ownTarget=+own.value; own.value=0; renderMeter();
@@ -841,7 +852,7 @@ details.cost summary::-webkit-details-marker { display:none; }
     document.getElementById('lossOut').textContent=(loss>=0?'−':'+')+fmt(Math.abs(loss))+' €';
     document.getElementById('lossBar').style.width=Math.max(0,Math.min(100,loss/bench[39]*100*2))+'%';
     document.getElementById('lossNote').textContent=loss>0?('That is '+(loss/21600).toFixed(1)+'× the entire lifetime Zulage of 21,600 €.'):'Cheaper than a 0.2 % world-ETF setup — only introductory offers get here.';
-    document.querySelectorAll('[data-cost]').forEach(function(b){ b.classList.toggle('btn-active',+b.dataset.cost===cost); });
+    document.querySelectorAll('[data-cost]').forEach(function(b){ b.setAttribute('aria-pressed',+b.dataset.cost===cost); });
     if(chart){ chart.data.datasets[1].data=s; chart.data.datasets[1].label='your cost '+cost.toFixed(2)+' %'; chart.update(); }
   }
   function restyleCharts(){ if(chart){ chart.destroy(); buildChart(); renderCost(); } }
@@ -888,7 +899,7 @@ details.cost summary::-webkit-details-marker { display:none; }
     document.getElementById('deathTitle').textContent=d[1]; document.getElementById('deathBody').textContent=d[2];
     document.getElementById('deathList').innerHTML=d[3].map(function(x){ return '<li>'+x+'</li>'; }).join('');
   }
-  document.querySelectorAll('#heirSeg [data-heir]').forEach(function(b){ b.addEventListener('click',function(){ heir=b.dataset.heir; document.querySelectorAll('#heirSeg [data-heir]').forEach(function(x){ x.classList.toggle('btn-active',x===b); }); state.heir=heir; saveState(); renderDeath(); }); });
+  document.querySelectorAll('#heirSeg [data-heir]').forEach(function(b){ b.addEventListener('click',function(){ heir=b.dataset.heir; document.querySelectorAll('#heirSeg [data-heir]').forEach(function(x){ x.setAttribute('aria-pressed',x===b); }); state.heir=heir; saveState(); renderDeath(); }); });
   document.querySelectorAll('input[name="phase"]').forEach(function(r){ r.addEventListener('change',renderDeath); });
   renderDeath(); restoreButton('heir');
 
