@@ -112,22 +112,42 @@
   --ink-soft:#A3B3AE; --hairline:#2C414B; --gold-soft:#3A2F14; --teal-soft:#153840;
 }
 
+/* ---------- Type scale: 16px base, Minor Third (1.2); headings grow fluidly from 360px to 1280px ---------- */
+:root {
+  --text-sm:.833rem;   --text-sm--line-height:1.5;     /* step -1 */
+  --text-base:1rem;    --text-base--line-height:1.6;   /* step 0 */
+  --text-lg:1.2rem;    --text-lg--line-height:1.5;     /* step +1 */
+  --text-xl:1.44rem;   --text-xl--line-height:1.3;     /* step +2 */
+  --text-2xl:1.728rem; --text-2xl--line-height:1.2;    /* step +3 */
+  --text-h3:clamp(1.2rem, 1.106rem + .417vw, 1.44rem);         /* +1 -> +2 */
+  --text-h2:clamp(1.728rem, 1.431rem + 1.322vw, 2.488rem);     /* +3 -> +5 */
+  --text-hero-num:clamp(2.488rem, 2.06rem + 1.904vw, 3.583rem); /* +5 -> +7 */
+  --text-h1:clamp(2.488rem, 1.779rem + 3.151vw, 4.3rem);       /* +5 -> +8 */
+  --card-fs:var(--text-sm);
+}
+/* daisyUI content text (12-14px by default) onto step -1; buttons and badges keep their component sizes */
+.table, .table :where(thead,tfoot), .alert, .stat-title, .stat-desc, .timeline-box { font-size:var(--text-sm); }
+
 /* ---------- Base ---------- */
 :root { box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
 html { scroll-padding-top:calc(env(safe-area-inset-top,0px) + 3.5rem); scroll-behavior:smooth; }
-body { background:var(--color-base-100); color:var(--color-base-content); font-family:"Manrope",system-ui,sans-serif; font-feature-settings:"tnum"; }
-.display { font-family:"Fraunces","Georgia",serif; font-variation-settings:"opsz" 144,"SOFT" 40; letter-spacing:-.015em; line-height:1.02; }
+body { background:var(--color-base-100); color:var(--color-base-content); font-family:"Manrope",system-ui,sans-serif; font-size:var(--text-base); line-height:var(--text-base--line-height); font-feature-settings:"tnum"; }
+/* layered so text-* utilities can resize a display heading */
+@layer components {
+  .display { font-family:"Fraunces","Georgia",serif; font-variation-settings:"opsz" 144,"SOFT" 40; letter-spacing:-.015em; line-height:1.02; }
+  h1.display { font-size:var(--text-h1); line-height:1.05; }
+  h2.display { font-size:var(--text-h2); font-weight:600; line-height:1.1; }
+  h3.display { font-size:var(--text-h3); font-weight:600; line-height:1.25; }
+}
 .num { font-family:"Fraunces","Georgia",serif; font-variation-settings:"opsz" 96,"SOFT" 20; font-variant-numeric:tabular-nums; letter-spacing:-.02em; }
 .soft { color:var(--ink-soft); }
 .prose-w { max-width:68ch; }
 .hairline { border-color:var(--hairline); }
 .wrap { max-width:76rem; margin-inline:auto; padding-inline:1.25rem; }
 @media (min-width:768px){ .wrap { padding-inline:2rem; } }
-h2.display { font-size:clamp(1.9rem,3.6vw,2.9rem); font-weight:600; }
-h3.display { font-size:clamp(1.25rem,2vw,1.6rem); font-weight:600; }
-.lead { font-size:1.05rem; line-height:1.65; }
-.kicker { font-size:.9rem; color:var(--ink-soft); }
-.navlink { padding:.35rem .6rem; border-radius:.5rem; font-size:.9rem; font-weight:600; white-space:nowrap; color:var(--ink-soft); }
+.lead { font-size:var(--text-lg); line-height:var(--text-lg--line-height); }
+.kicker { font-size:var(--text-sm); color:var(--ink-soft); }
+.navlink { padding:.35rem .6rem; border-radius:.5rem; font-size:var(--text-sm); font-weight:600; white-space:nowrap; color:var(--ink-soft); }
 .navlink:hover, .navlink:focus-visible { color:var(--color-base-content); background:var(--color-base-200); }
 .navbar-top { background:color-mix(in srgb, var(--color-base-100) 86%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--hairline); top:env(safe-area-inset-top,0px); }
 .scroll-x { overflow-x:auto; -webkit-overflow-scrolling:touch; }
@@ -151,7 +171,7 @@ img, svg, canvas { max-width:100%; }
 
 /* ---------- Hero subsidy meter ---------- */
 .meter { display:flex; height:3.25rem; border-radius:.75rem; overflow:hidden; background:var(--color-base-300); }
-.meter > div { display:flex; align-items:center; justify-content:center; font-weight:700; font-size:clamp(.7rem,2.2vw,.85rem); white-space:nowrap; overflow:hidden; transition:flex-basis .55s cubic-bezier(.2,.8,.2,1); flex:0 0 0%; min-width:0; }
+.meter > div { display:flex; align-items:center; justify-content:center; font-weight:700; font-size:clamp(.7rem,2.2vw,var(--text-sm)); white-space:nowrap; overflow:hidden; transition:flex-basis .55s cubic-bezier(.2,.8,.2,1); flex:0 0 0%; min-width:0; }
 .meter .m-own { background:var(--color-primary); color:var(--color-primary-content); }
 .meter .m-grund { background:var(--color-secondary); color:var(--color-secondary-content); }
 .meter .m-kind { background:color-mix(in srgb,var(--color-secondary) 70%, var(--color-base-content)); color:#fff; }
@@ -159,7 +179,7 @@ img, svg, canvas { max-width:100%; }
 .legend-dot { display:inline-block; width:.7rem; height:.7rem; border-radius:999px; margin-right:.35rem; vertical-align:-.05rem; }
 .hero-grid { display:grid; gap:2.5rem; }
 @media (min-width:1024px){ .hero-grid { grid-template-columns:1.05fr 1fr; align-items:center; } }
-.bignum { font-size:clamp(2.6rem,6vw,4.4rem); font-weight:500; line-height:1; }
+.bignum { font-size:var(--text-hero-num); font-weight:500; line-height:1; }
 .chip { font-weight:600; }
 
 /* ---------- Timeline ---------- */
@@ -187,8 +207,8 @@ img, svg, canvas { max-width:100%; }
 details.cost summary { cursor:pointer; list-style:none; }
 details.cost summary::-webkit-details-marker { display:none; }
 .cost-row { display:grid; grid-template-columns:2.2rem 1fr auto; gap:.75rem; align-items:start; }
-.footnote { font-size:.8rem; color:var(--ink-soft); }
-.steps-tax .step { font-size:.85rem; }
+.footnote { font-size:var(--text-sm); color:var(--ink-soft); }
+.steps-tax .step { font-size:var(--text-sm); }
 .outcome .card-body { justify-content:flex-start; }
 .seg .btn[aria-disabled="true"] { opacity:.5; color:var(--color-base-content); background-color:var(--color-base-200); }
 .seg .btn[aria-pressed="true"] { background:var(--color-primary); color:var(--color-primary-content); border-color:var(--color-primary); }
@@ -255,7 +275,7 @@ details.cost summary::-webkit-details-marker { display:none; }
   <div class="hero-grid">
     <div>
       <p class="kicker mb-3">Germany's Riester successor, in force since 29 May 2026, live from 1 January 2027</p>
-      <h1 class="display text-[clamp(2.4rem,6vw,4.6rem)] font-semibold">From 2027 the state tops up every euro you put into ETFs.</h1>
+      <h1 class="display font-semibold">From 2027 the state tops up every euro you put into ETFs.</h1>
       <p class="lead soft prose-w mt-5">Pay in up to 1,800 € a year, get up to 540 € back in cash subsidies plus 300 € per child, a tax deduction on top, and no tax on gains while you save. The catch is a lock-up until 65, a full income-tax hit on the way out, and a cost cap that only covers one product variant.</p>
       <div class="mt-6 flex flex-wrap gap-2">
         <a href="#costs" class="btn btn-primary h-auto min-h-10 max-w-full py-2 whitespace-normal">Why costs matter more than the subsidy</a>
@@ -267,14 +287,14 @@ details.cost summary::-webkit-details-marker { display:none; }
     <div class="card bg-base-200 border hairline shadow-none">
       <div class="card-body gap-5">
         <div class="flex items-baseline justify-between gap-3">
-          <h2 class="display text-2xl font-semibold">Your subsidy, live</h2>
+          <h2 class="display text-xl font-semibold">Your subsidy, live</h2>
           <span class="soft text-sm">2027 rules</span>
         </div>
 
         <label class="block">
           <div class="flex items-baseline gap-2 text-sm font-semibold mb-1"><span>You pay in per year</span><span><span id="ownOut" class="num text-lg">1,800</span> €</span><span class="soft font-normal">(<span id="ownMonthOut" class="num">150</span> € / month)</span></div>
           <input id="own" type="range" min="0" max="6840" step="10" value="1800" class="range range-primary w-full" aria-label="Own contribution per year">
-          <div class="flex justify-between text-xs soft mt-1"><span>0</span><span>120 min.</span><span>1,800 subsidised</span><span>6,840 cap</span></div>
+          <div class="flex justify-between text-sm soft mt-1"><span>0</span><span>120 min.</span><span>1,800 subsidised</span><span>6,840 cap</span></div>
         </label>
 
         <div class="grid grid-cols-2 gap-3">
@@ -324,7 +344,7 @@ details.cost summary::-webkit-details-marker { display:none; }
             <div class="m-kind" id="mKind"></div>
             <div class="m-bonus" id="mBonus"></div>
           </div>
-          <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs mt-2">
+          <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm mt-2">
             <span><i class="legend-dot" style="background:var(--color-primary)"></i>your money</span>
             <span><i class="legend-dot" style="background:var(--color-secondary)"></i>Grundzulage</span>
             <span><i class="legend-dot" style="background:color-mix(in srgb,var(--color-secondary) 70%, var(--color-base-content))"></i>Kinderzulage</span>
@@ -334,16 +354,16 @@ details.cost summary::-webkit-details-marker { display:none; }
 
         <div class="grid grid-cols-3 gap-2">
           <div class="rounded-xl tint-gold p-3">
-            <div class="text-xs font-semibold">Zulagen in depot</div>
-            <div class="num text-2xl"><span id="zOut">540</span> €</div>
+            <div class="text-sm font-semibold">Zulagen in depot</div>
+            <div class="num text-xl"><span id="zOut">540</span> €</div>
           </div>
           <div class="rounded-xl tint-teal p-3">
-            <div class="text-xs font-semibold">Extra tax refund</div>
-            <div class="num text-2xl"><span id="tOut">443</span> €</div>
+            <div class="text-sm font-semibold">Extra tax refund</div>
+            <div class="num text-xl"><span id="tOut">443</span> €</div>
           </div>
           <div class="rounded-xl bg-base-300 p-3">
-            <div class="text-xs font-semibold">Return before markets</div>
-            <div class="num text-2xl"><span id="rOut">55</span> %</div>
+            <div class="text-sm font-semibold">Return before markets</div>
+            <div class="num text-xl"><span id="rOut">55</span> %</div>
           </div>
         </div>
         <p class="footnote" id="meterNote">1,800 € in → 2,340 € in the depot plus a 443 € refund on your account. Deduction: 1,800 € + 540 € Zulage = 2,340 € × 42 % = 983 €, minus the 540 € already paid as Zulage.</p>
@@ -355,11 +375,11 @@ details.cost summary::-webkit-details-marker { display:none; }
 <!-- ================= KEY FACTS ================= -->
 <section id="key-facts" class="wrap pb-14">
   <div class="facts">
-    <div class="stat"><div class="stat-title">Products available</div><div class="stat-value num text-2xl">1 Jan 2027</div><div class="stat-desc">law in force 29 May 2026</div></div>
-    <div class="stat"><div class="stat-title">Max Grundzulage</div><div class="stat-value num text-2xl">540 €/yr</div><div class="stat-desc">at 1,800 € paid in; +300 €/child</div></div>
-    <div class="stat"><div class="stat-title">Hard cap per contract</div><div class="stat-value num text-2xl">6,840 €/yr</div><div class="stat-desc">above 1,800 € unsubsidised but tax-deferred</div></div>
-    <div class="stat"><div class="stat-title">Cost cap</div><div class="stat-value num text-2xl">1.0 % p.a.</div><div class="stat-desc text-warning">Standarddepot only</div></div>
-    <div class="stat"><div class="stat-title">Payout window</div><div class="stat-value num text-2xl">65 – 70</div><div class="stat-desc">≤30 % lump sum, rest plan or annuity</div></div>
+    <div class="stat"><div class="stat-title">Products available</div><div class="stat-value num text-xl">1 Jan 2027</div><div class="stat-desc">law in force 29 May 2026</div></div>
+    <div class="stat"><div class="stat-title">Max Grundzulage</div><div class="stat-value num text-xl">540 €/yr</div><div class="stat-desc">at 1,800 € paid in; +300 €/child</div></div>
+    <div class="stat"><div class="stat-title">Hard cap per contract</div><div class="stat-value num text-xl">6,840 €/yr</div><div class="stat-desc">above 1,800 € unsubsidised but tax-deferred</div></div>
+    <div class="stat"><div class="stat-title">Cost cap</div><div class="stat-value num text-xl">1.0 % p.a.</div><div class="stat-desc text-warning">Standarddepot only</div></div>
+    <div class="stat"><div class="stat-title">Payout window</div><div class="stat-value num text-xl">65 – 70</div><div class="stat-desc">≤30 % lump sum, rest plan or annuity</div></div>
   </div>
 </section>
 
@@ -526,7 +546,7 @@ details.cost summary::-webkit-details-marker { display:none; }
       <label class="block">
         <div class="flex justify-between text-sm font-semibold mb-1"><span>All-in cost per year</span><span class="num text-lg"><span id="costOut">1.00</span> %</span></div>
         <input id="cost" type="range" min="0" max="2.5" step="0.05" value="1" class="range range-error w-full" aria-label="All-in annual cost">
-        <div class="flex justify-between text-xs soft mt-1"><span>0</span><span>1.0 cap</span><span>2.5 "premium"</span></div>
+        <div class="flex justify-between text-sm soft mt-1"><span>0</span><span>1.0 cap</span><span>2.5 "premium"</span></div>
       </label>
       <div class="join seg flex flex-wrap" role="group" aria-label="Cost presets">
         <button type="button" class="btn btn-xs join-item" aria-pressed="false" data-cost="0.2">0.2 world ETF</button>
@@ -536,10 +556,10 @@ details.cost summary::-webkit-details-marker { display:none; }
         <button type="button" class="btn btn-xs join-item" aria-pressed="false" data-cost="2.5">2.5 insurer</button>
       </div>
       <div class="rounded-xl bg-base-200 border hairline p-4">
-        <div class="text-xs font-semibold soft">Capital after 40 years</div>
-        <div class="num text-3xl" id="capOut">296,805 €</div>
-        <div class="text-xs font-semibold soft mt-3">Lost versus a 0.2 % world-ETF setup</div>
-        <div class="num text-2xl text-error" id="lossOut">−67,609 €</div>
+        <div class="text-sm font-semibold soft">Capital after 40 years</div>
+        <div class="num text-2xl" id="capOut">296,805 €</div>
+        <div class="text-sm font-semibold soft mt-3">Lost versus a 0.2 % world-ETF setup</div>
+        <div class="num text-xl text-error" id="lossOut">−67,609 €</div>
         <div class="cost-bar mt-2"><div id="lossBar" style="width:40%"></div></div>
         <div class="footnote mt-2" id="lossNote">That is 3.1× the entire lifetime Zulage of 21,600 €.</div>
       </div>
@@ -549,18 +569,18 @@ details.cost summary::-webkit-details-marker { display:none; }
 
   <h3 class="display mt-12">Every cost layer, nothing hidden</h3>
   <div class="mt-4 grid md:grid-cols-2 gap-3" id="costLayers">
-    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-xl soft">1</span><span><b>Depot / account fee</b><span class="block text-xs soft">Depotgebühr, Kontoführung</span></span><span class="badge badge-sm badge-success">0 % at brokers</span></div></summary><div class="px-6 pb-5 text-sm">No legal limit. 0 % at Scalable, Smartbroker+, finanzen.net Zero, quirion, Deka Standarddepot. Classic banks typically 0.2–0.5 % or a flat fee — still to be announced.</div></details>
-    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-xl soft">2</span><span><b>Savings-plan and order fees</b><span class="block text-xs soft">per execution</span></span><span class="badge badge-sm badge-outline">0 – 0.99 €</span></div></summary><div class="px-6 pb-5 text-sm">Free in neobroker Standarddepots; 0.99 € per trade in Scalable's free-choice FREE model; up to 1.5 % per order at some banks.</div></details>
-    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-xl soft">3</span><span><b>Fund costs (TER)</b><span class="block text-xs soft">inside the ETF, always applies</span></span><span class="badge badge-sm badge-outline">0.07 – 1.5 %</span></div></summary><div class="px-6 pb-5 text-sm">0.07–0.20 % for broad world ETFs (Vanguard All-Cap 0.07 %, Deka Standard 0.1 %); 0.7 % for niche "AVD" products (Acatis); 1.0–1.5 % in actively managed variants. Counted inside the effective-cost figure.</div></details>
-    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-xl soft">4</span><span><b>Spreads and trading inside the fund</b><span class="block text-xs soft">invisible in the TER</span></span><span class="badge badge-sm badge-outline">small</span></div></summary><div class="px-6 pb-5 text-sm">Negligible for large index ETFs, material for exotic or illiquid funds.</div></details>
-    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-xl soft">5</span><span><b>Acquisition and distribution costs</b><span class="block text-xs soft">Abschluss- und Vertriebskosten</span></span><span class="badge badge-sm badge-warning">insurers, advisers</span></div></summary><div class="px-6 pb-5 text-sm">Must be spread over the entire saving phase and may not be charged on transferred Riester capital; banned until 18 in Frühstart contracts. Expect them in any insurance-wrapped AVD; the Verbraucherzentrale expects "premium" variants at 1.5–2.5 % all-in.</div></details>
-    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-xl soft">6</span><span><b>Administration incl. Zulage handling</b><span class="block text-xs soft">Verwaltungskosten</span></span><span class="badge badge-sm badge-outline">often bundled</span></div></summary><div class="px-6 pb-5 text-sm">Usually inside the depot fee; Deka: free. Ask explicitly whether the yearly Zulage application costs anything.</div></details>
-    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-xl soft">7</span><span><b>Effective cost (reduction in yield)</b><span class="block text-xs soft">Effektivkosten, must be disclosed</span></span><span class="badge badge-sm badge-primary">≤1.0 % Standard only</span></div></summary><div class="px-6 pb-5 text-sm">The one number to compare across providers: 5 % gross minus 1 % effective cost = 4 % net. Capped only for the Standarddepot; providers must publish it in a standard format so comparison sites can list it.</div></details>
-    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-xl soft">8</span><span><b>Provider switch</b><span class="block text-xs soft">incl. Riester → AVD transfer</span></span><span class="badge badge-sm badge-outline">≤150 € + ≤150 €</span></div></summary><div class="px-6 pb-5 text-sm">Old provider ≤150 € within 5 years, free afterwards; new provider ≤150 € admin fee. "Free switching" is not fully free.</div></details>
-    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-xl soft">9</span><span><b>Payout-phase costs</b><span class="block text-xs soft">annuity factor, plan fees</span></span><span class="badge badge-sm badge-outline">uncapped</span></div></summary><div class="px-6 pb-5 text-sm">An annuity's Rentenfaktor (€ per month per 10,000 €) embeds the insurer's margin and longevity assumptions; payout plans may carry a yearly admin fee. Compare the factor, not the brochure.</div></details>
-    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-xl soft">10</span><span><b>Guarantee cost</b><span class="block text-xs soft">Garantieprodukt, implicit</span></span><span class="badge badge-sm badge-outline">lower return</span></div></summary><div class="px-6 pb-5 text-sm">Not a fee line, but a lower equity share to fund the 80/100 % guarantee — historically the biggest drag on Riester results.</div></details>
-    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-xl soft">11</span><span><b>Fee-increase clauses</b><span class="block text-xs soft">read the terms</span></span><span class="badge badge-sm badge-warning">watch</span></div></summary><div class="px-6 pb-5 text-sm">Consumer-protection warning: providers may launch cheap to win customers and reserve the right to raise fees later. Introductory "ETF costs covered in 2027" offers end.</div></details>
-    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-xl soft">12</span><span><b>Glide-path opportunity cost</b><span class="block text-xs soft">Standarddepot default</span></span><span class="badge badge-sm badge-outline">opt out possible</span></div></summary><div class="px-6 pb-5 text-sm">The Standarddepot shifts into the defensive fund before payout unless you tell the provider otherwise. Sensible for many, a drag if you want to stay invested through a long payout plan.</div></details>
+    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-lg soft">1</span><span><b>Depot / account fee</b><span class="block text-sm soft">Depotgebühr, Kontoführung</span></span><span class="badge badge-sm badge-success">0 % at brokers</span></div></summary><div class="px-6 pb-5 text-sm">No legal limit. 0 % at Scalable, Smartbroker+, finanzen.net Zero, quirion, Deka Standarddepot. Classic banks typically 0.2–0.5 % or a flat fee — still to be announced.</div></details>
+    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-lg soft">2</span><span><b>Savings-plan and order fees</b><span class="block text-sm soft">per execution</span></span><span class="badge badge-sm badge-outline">0 – 0.99 €</span></div></summary><div class="px-6 pb-5 text-sm">Free in neobroker Standarddepots; 0.99 € per trade in Scalable's free-choice FREE model; up to 1.5 % per order at some banks.</div></details>
+    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-lg soft">3</span><span><b>Fund costs (TER)</b><span class="block text-sm soft">inside the ETF, always applies</span></span><span class="badge badge-sm badge-outline">0.07 – 1.5 %</span></div></summary><div class="px-6 pb-5 text-sm">0.07–0.20 % for broad world ETFs (Vanguard All-Cap 0.07 %, Deka Standard 0.1 %); 0.7 % for niche "AVD" products (Acatis); 1.0–1.5 % in actively managed variants. Counted inside the effective-cost figure.</div></details>
+    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-lg soft">4</span><span><b>Spreads and trading inside the fund</b><span class="block text-sm soft">invisible in the TER</span></span><span class="badge badge-sm badge-outline">small</span></div></summary><div class="px-6 pb-5 text-sm">Negligible for large index ETFs, material for exotic or illiquid funds.</div></details>
+    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-lg soft">5</span><span><b>Acquisition and distribution costs</b><span class="block text-sm soft">Abschluss- und Vertriebskosten</span></span><span class="badge badge-sm badge-warning">insurers, advisers</span></div></summary><div class="px-6 pb-5 text-sm">Must be spread over the entire saving phase and may not be charged on transferred Riester capital; banned until 18 in Frühstart contracts. Expect them in any insurance-wrapped AVD; the Verbraucherzentrale expects "premium" variants at 1.5–2.5 % all-in.</div></details>
+    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-lg soft">6</span><span><b>Administration incl. Zulage handling</b><span class="block text-sm soft">Verwaltungskosten</span></span><span class="badge badge-sm badge-outline">often bundled</span></div></summary><div class="px-6 pb-5 text-sm">Usually inside the depot fee; Deka: free. Ask explicitly whether the yearly Zulage application costs anything.</div></details>
+    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-lg soft">7</span><span><b>Effective cost (reduction in yield)</b><span class="block text-sm soft">Effektivkosten, must be disclosed</span></span><span class="badge badge-sm badge-primary">≤1.0 % Standard only</span></div></summary><div class="px-6 pb-5 text-sm">The one number to compare across providers: 5 % gross minus 1 % effective cost = 4 % net. Capped only for the Standarddepot; providers must publish it in a standard format so comparison sites can list it.</div></details>
+    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-lg soft">8</span><span><b>Provider switch</b><span class="block text-sm soft">incl. Riester → AVD transfer</span></span><span class="badge badge-sm badge-outline">≤150 € + ≤150 €</span></div></summary><div class="px-6 pb-5 text-sm">Old provider ≤150 € within 5 years, free afterwards; new provider ≤150 € admin fee. "Free switching" is not fully free.</div></details>
+    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-lg soft">9</span><span><b>Payout-phase costs</b><span class="block text-sm soft">annuity factor, plan fees</span></span><span class="badge badge-sm badge-outline">uncapped</span></div></summary><div class="px-6 pb-5 text-sm">An annuity's Rentenfaktor (€ per month per 10,000 €) embeds the insurer's margin and longevity assumptions; payout plans may carry a yearly admin fee. Compare the factor, not the brochure.</div></details>
+    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-lg soft">10</span><span><b>Guarantee cost</b><span class="block text-sm soft">Garantieprodukt, implicit</span></span><span class="badge badge-sm badge-outline">lower return</span></div></summary><div class="px-6 pb-5 text-sm">Not a fee line, but a lower equity share to fund the 80/100 % guarantee — historically the biggest drag on Riester results.</div></details>
+    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-lg soft">11</span><span><b>Fee-increase clauses</b><span class="block text-sm soft">read the terms</span></span><span class="badge badge-sm badge-warning">watch</span></div></summary><div class="px-6 pb-5 text-sm">Consumer-protection warning: providers may launch cheap to win customers and reserve the right to raise fees later. Introductory "ETF costs covered in 2027" offers end.</div></details>
+    <details class="cost card quiet shadow-none"><summary class="card-body py-4"><div class="cost-row"><span class="num text-lg soft">12</span><span><b>Glide-path opportunity cost</b><span class="block text-sm soft">Standarddepot default</span></span><span class="badge badge-sm badge-outline">opt out possible</span></div></summary><div class="px-6 pb-5 text-sm">The Standarddepot shifts into the defensive fund before payout unless you tell the provider otherwise. Sensible for many, a drag if you want to stay invested through a long payout plan.</div></details>
   </div>
 </section>
 
@@ -582,9 +602,9 @@ details.cost summary::-webkit-details-marker { display:none; }
       <label class="block lg:col-span-1"><div class="flex justify-between text-sm font-semibold mb-1"><span>Annuity factor (€/month per 10 k€)</span><span class="num" id="rfOut">30</span></div><input id="rf" type="range" min="22" max="38" step="1" value="30" class="range range-sm w-full" aria-label="Annuity factor"></label>
     </div>
     <div class="grid md:grid-cols-3 gap-4 mt-6">
-      <div class="rounded-xl bg-base-100 border hairline p-4"><div class="text-xs font-semibold soft">Lump sum now</div><div class="num text-2xl" id="lumpEur">90,000 €</div><div class="footnote">taxable as income in that year</div></div>
-      <div class="rounded-xl bg-base-100 border hairline p-4"><div class="text-xs font-semibold soft">Payout plan, per month</div><div class="num text-2xl text-primary" id="planM">1,270 €</div><div class="footnote" id="planNote">for 18 years, 3 % return during payout, capital exhausted at 85, remainder inheritable</div></div>
-      <div class="rounded-xl bg-base-100 border hairline p-4"><div class="text-xs font-semibold soft">Lifelong annuity, per month</div><div class="num text-2xl text-secondary" id="annM">630 €</div><div class="footnote" id="annNote">for life; equals the plan's total only if you reach 103</div></div>
+      <div class="rounded-xl bg-base-100 border hairline p-4"><div class="text-sm font-semibold soft">Lump sum now</div><div class="num text-xl" id="lumpEur">90,000 €</div><div class="footnote">taxable as income in that year</div></div>
+      <div class="rounded-xl bg-base-100 border hairline p-4"><div class="text-sm font-semibold soft">Payout plan, per month</div><div class="num text-xl text-primary" id="planM">1,270 €</div><div class="footnote" id="planNote">for 18 years, 3 % return during payout, capital exhausted at 85, remainder inheritable</div></div>
+      <div class="rounded-xl bg-base-100 border hairline p-4"><div class="text-sm font-semibold soft">Lifelong annuity, per month</div><div class="num text-xl text-secondary" id="annM">630 €</div><div class="footnote" id="annNote">for life; equals the plan's total only if you reach 103</div></div>
     </div>
   </div></div>
 </section>
@@ -680,7 +700,7 @@ details.cost summary::-webkit-details-marker { display:none; }
 
 <!-- ================= SOURCES ================= -->
 <section id="sources" class="wrap py-14 border-t hairline">
-  <h2 class="display text-2xl">Sources</h2>
+  <h2 class="display text-xl">Sources</h2>
   <ul class="mt-4 text-sm space-y-1 soft">
     <li><a class="link" href="https://www.bundesfinanzministerium.de/Content/DE/FAQ/reform-der-privaten-altersvorsorge.html">BMF FAQ, Reform der geförderten privaten Altersvorsorge (5 May 2026)</a></li>
     <li><a class="link" href="https://www.bundesfinanzministerium.de/Content/DE/FAQ/fruehstart-rente.html">BMF FAQ Frühstartrente (14 Aug 2026)</a></li>
@@ -836,6 +856,8 @@ details.cost summary::-webkit-details-marker { display:none; }
   var bench=series(0.002);
   var costEl=document.getElementById('cost'), chart;
   function chartColors(){ return {p:cssVar('--color-primary'), e:cssVar('--color-error'), g:cssVar('--hairline'), t:cssVar('--ink-soft')}; }
+  Chart.defaults.font.family=getComputedStyle(document.body).fontFamily;
+  Chart.defaults.font.size=parseFloat(cssVar('--text-sm'))*parseFloat(getComputedStyle(root).fontSize);
   function buildChart(){
     var c=chartColors();
     chart=new Chart(document.getElementById('costChart'),{type:'line',data:{labels:labels,datasets:[
