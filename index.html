@@ -120,11 +120,12 @@
   --text-xl:1.44rem;   --text-xl--line-height:1.3;     /* step +2 */
   --text-2xl:1.728rem; --text-2xl--line-height:1.2;    /* step +3 */
   --text-h3:clamp(1.2rem, 1.106rem + .417vw, 1.44rem);         /* +1 -> +2 */
-  --text-h2:clamp(1.728rem, 1.431rem + 1.322vw, 2.488rem);     /* +3 -> +5 */
-  --text-hero-num:clamp(2.488rem, 2.06rem + 1.904vw, 3.583rem); /* +5 -> +7 */
-  --text-h1:clamp(2.488rem, 1.779rem + 3.151vw, 4.3rem);       /* +5 -> +8 */
+  --text-h2:clamp(1.44rem, 1.03rem + 1.823vw, 2.488rem);       /* +2 -> +5 */
+  --text-h1:clamp(2.074rem, 1.203rem + 3.871vw, 4.3rem);       /* +4 -> +8 */
   --card-fs:var(--text-sm);
 }
+/* tighter leading on narrow screens */
+@media (max-width:640px){ :root { --text-base--line-height:1.5; } }
 /* daisyUI content text (12-14px by default) onto step -1; buttons and badges keep their component sizes */
 .table, .table :where(thead,tfoot), .alert, .stat-title, .stat-desc, .timeline-box { font-size:var(--text-sm); }
 
@@ -134,14 +135,14 @@ html { scroll-padding-top:calc(env(safe-area-inset-top,0px) + 3.5rem); scroll-be
 body { background:var(--color-base-100); color:var(--color-base-content); font-family:"Manrope",system-ui,sans-serif; font-size:var(--text-base); line-height:var(--text-base--line-height); font-feature-settings:"tnum"; }
 /* layered so text-* utilities can resize a display heading */
 @layer components {
-  .display { font-family:"Fraunces","Georgia",serif; font-variation-settings:"opsz" 144,"SOFT" 40; letter-spacing:-.015em; line-height:1.02; }
+  .display { font-family:"Fraunces","Georgia",serif; font-variation-settings:"SOFT" 40; letter-spacing:-.015em; line-height:1.02; }
   h1.display { font-size:var(--text-h1); line-height:1.05; }
   h2.display { font-size:var(--text-h2); font-weight:600; line-height:1.1; }
-  h3.display { font-size:var(--text-h3); font-weight:600; line-height:1.25; }
+  h3.display { font-size:var(--text-h3); font-weight:600; line-height:1.25; letter-spacing:0; }
 }
-.num { font-family:"Fraunces","Georgia",serif; font-variation-settings:"opsz" 96,"SOFT" 20; font-variant-numeric:tabular-nums; letter-spacing:-.02em; }
+.num { font-family:"Fraunces","Georgia",serif; font-variation-settings:"SOFT" 20; font-variant-numeric:tabular-nums; }
 .soft { color:var(--ink-soft); }
-.prose-w { max-width:68ch; }
+.prose-w { max-width:56ch; }   /* ~75-80 Manrope characters; ch is the width of "0" */
 .hairline { border-color:var(--hairline); }
 .wrap { max-width:76rem; margin-inline:auto; padding-inline:1.25rem; }
 @media (min-width:768px){ .wrap { padding-inline:2rem; } }
@@ -179,7 +180,6 @@ img, svg, canvas { max-width:100%; }
 .legend-dot { display:inline-block; width:.7rem; height:.7rem; border-radius:999px; margin-right:.35rem; vertical-align:-.05rem; }
 .hero-grid { display:grid; gap:2.5rem; }
 @media (min-width:1024px){ .hero-grid { grid-template-columns:1.05fr 1fr; align-items:center; } }
-.bignum { font-size:var(--text-hero-num); font-weight:500; line-height:1; }
 .chip { font-weight:600; }
 
 /* ---------- Timeline ---------- */
@@ -209,6 +209,7 @@ details.cost summary::-webkit-details-marker { display:none; }
 .cost-row { display:grid; grid-template-columns:2.2rem 1fr auto; gap:.75rem; align-items:start; }
 .footnote { font-size:var(--text-sm); color:var(--ink-soft); }
 .steps-tax .step { font-size:var(--text-sm); }
+.steps-tax .step > span { align-self:start; }
 .outcome .card-body { justify-content:flex-start; }
 .seg .btn[aria-disabled="true"] { opacity:.5; color:var(--color-base-content); background-color:var(--color-base-200); }
 .seg .btn[aria-pressed="true"] { background:var(--color-primary); color:var(--color-primary-content); border-color:var(--color-primary); }
@@ -651,11 +652,11 @@ details.cost summary::-webkit-details-marker { display:none; }
 <section id="tax" class="wrap py-14 border-t hairline">
   <h2 class="display">When tax is paid</h2>
   <p class="soft mt-3 prose-w">Deferred taxation: a deduction now, no tax while saving, income tax on the way out.</p>
-  <ul class="steps steps-vertical lg:steps-horizontal w-full mt-8 steps-tax">
-    <li class="step step-primary" data-content="1"><span class="text-left lg:text-center"><b>Paying in</b><br>1,800 € + Zulage claim deductible (§ 10a EStG), automatic Günstigerprüfung, on top of normal Vorsorgeaufwendungen</span></li>
-    <li class="step step-primary" data-content="2"><span class="text-left lg:text-center"><b>Saving, 30–40 years</b><br>No tax at all: no Abgeltungsteuer, no Vorabpauschale, unlimited free rebalancing</span></li>
-    <li class="step step-secondary" data-content="3"><span class="text-left lg:text-center"><b>Payout, subsidised part</b><br>100 % taxable as income at your retirement rate; no health or care insurance contributions</span></li>
-    <li class="step step-secondary" data-content="4"><span class="text-left lg:text-center"><b>Payout, unsubsidised part</b><br>Only the earnings: 17 % Ertragsanteil on an annuity at 67, or half the gain on a lump sum after 12 years and age 62</span></li>
+  <ul class="steps steps-vertical xl:steps-horizontal w-full mt-8 steps-tax">
+    <li class="step step-primary" data-content="1"><span class="text-left prose-w"><b class="block xl:text-center">Paying in</b>1,800 € + Zulage claim deductible (§ 10a EStG), automatic Günstigerprüfung, on top of normal Vorsorgeaufwendungen</span></li>
+    <li class="step step-primary" data-content="2"><span class="text-left prose-w"><b class="block xl:text-center">Saving, 30–40 years</b>No tax at all: no Abgeltungsteuer, no Vorabpauschale, unlimited free rebalancing</span></li>
+    <li class="step step-secondary" data-content="3"><span class="text-left prose-w"><b class="block xl:text-center">Payout, subsidised part</b>100 % taxable as income at your retirement rate; no health or care insurance contributions</span></li>
+    <li class="step step-secondary" data-content="4"><span class="text-left prose-w"><b class="block xl:text-center">Payout, unsubsidised part</b>Only the earnings: 17 % Ertragsanteil on an annuity at 67, or half the gain on a lump sum after 12 years and age 62</span></li>
   </ul>
   <div class="table-wrap mt-8">
     <table class="table">
