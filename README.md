@@ -15,6 +15,8 @@ Interactive guide to the German Altersvorsorgedepot (AVD) pension reform, with a
 
 Your inputs are saved in your browser's `localStorage` and never leave your device.
 
+The site uses [Microsoft Clarity](https://clarity.microsoft.com/) to record anonymised sessions and heatmaps so the layout can be improved. Clarity masks input values by default. The project ID lives in the `<head>` of `index.html`.
+
 ## Run locally
 
 It is a static site. Open `index.html` in a browser.
