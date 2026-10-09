@@ -534,8 +534,8 @@
 <!-- Clarity consent banner: one click, remembered. -->
 <div id="cc" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:9999;padding:12px 16px;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;background:#222;color:#fff;font:14px/1.4 system-ui,sans-serif">
   <span>Wir nutzen Microsoft Clarity, um diese Seite zu verbessern. Einverstanden?</span>
-  <button data-c="granted">Ja</button>
-  <button data-c="denied">Nein</button>
+  <button type="button" data-c="granted" style="cursor:pointer;padding:6px 18px;border-radius:6px;border:1px solid #fff;background:#fff;color:#222;font:inherit;font-weight:600">Ja</button>
+  <button type="button" data-c="denied" style="cursor:pointer;padding:6px 18px;border-radius:6px;border:1px solid #bbb;background:transparent;color:#fff;font:inherit;font-weight:600">Nein</button>
 </div>
 <script>
 (function () {
