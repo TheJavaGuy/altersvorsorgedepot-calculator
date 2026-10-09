@@ -531,5 +531,29 @@
 </main>
 
 <script src="app.js"></script>
+<!-- Clarity consent banner: one click, remembered. -->
+<div id="cc" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:9999;padding:12px 16px;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;background:#222;color:#fff;font:14px/1.4 system-ui,sans-serif">
+  <span>Wir nutzen Microsoft Clarity, um diese Seite zu verbessern. Einverstanden?</span>
+  <button data-c="granted">Ja</button>
+  <button data-c="denied">Nein</button>
+</div>
+<script>
+(function () {
+  var KEY = 'clarity-consent', box = document.getElementById('cc'), saved = null;
+  function apply(v) {
+    if (v === 'granted') window.clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: 'granted' });
+    else window.clarity('consent', false);
+  }
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) apply(saved); else box.style.display = 'flex';
+  box.addEventListener('click', function (e) {
+    var v = e.target.getAttribute('data-c');
+    if (!v) return;
+    try { localStorage.setItem(KEY, v); } catch (e) {}
+    apply(v);
+    box.style.display = 'none';
+  });
+})();
+</script>
 </body>
 </html>
